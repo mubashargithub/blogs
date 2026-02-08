@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Posts Dashboard</title>
+    <style>
+        /* Posts Page Styling */
+            .container {
+                max-width: 1400px;
+                margin: 0 auto;
+                padding: 40px 30px;
+            }
+            
+            .page-title {
+                text-align: center;
+                font-size: 42px;
+                font-weight: 800;
+                color: #2c3e50;
+                margin-bottom: 50px;
+                position: relative;
+                display: inline-block;
+                width: 100%;
+            }
+            
+            .page-title:after {
+                content: '';
+                position: absolute;
+                bottom: -15px;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 80px;
+                height: 4px;
+                background: linear-gradient(90deg, #667eea, #764ba2);
+                border-radius: 2px;
+            }
+            
+            /* Posts Grid */
+            .posts-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+                gap: 30px;
+                margin-top: 30px;
+            }
+            
+            /* Post Card */
+            .post-card {
+                background: white;
+                border-radius: 20px;
+                padding: 30px;
+                box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+                transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+                position: relative;
+                overflow: hidden;
+                border: 1px solid rgba(102, 126, 234, 0.1);
+            }
+            
+            .post-card:hover {
+                transform: translateY(-10px) scale(1.02);
+                box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+                border-color: rgba(102, 126, 234, 0.3);
+            }
+            
+            .post-card:before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                height: 5px;
+                background: linear-gradient(90deg, #667eea, #764ba2);
+                border-radius: 20px 20px 0 0;
+            }
+            
+            /* Post Number */
+            .post-number {
+                position: absolute;
+                top: 15px;
+                right: 15px;
+            }
+            
+            .post-count {
+                background: linear-gradient(135deg, #667eea, #764ba2);
+                color: white;
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-weight: 800;
+                font-size: 18px;
+                box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+            }
+            
+            /* Post Title */
+            .post-title {
+                color: #2c3e50;
+                font-size: 24px;
+                font-weight: 700;
+                margin: 20px 0 15px 0;
+                line-height: 1.4;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+            
+            .post-icon {
+                font-size: 22px;
+                opacity: 0.8;
+            }
+            
+            /* Post Content */
+            .post-content {
+                margin: 20px 0;
+                position: relative;
+            }
+            
+            .content-preview {
+                color: #546e7a;
+                font-size: 16px;
+                line-height: 1.8;
+                margin-bottom: 10px;
+            }
+            
+            .read-more {
+                color: #667eea;
+                font-weight: 600;
+                font-size: 14px;
+                cursor: pointer;
+                display: inline-block;
+                transition: all 0.3s;
+            }
+            
+            .read-more:hover {
+                color: #764ba2;
+                transform: translateX(5px);
+            }
+            
+            /* Post Metadata */
+            .post-meta {
+                background: #f8f9ff;
+                padding: 15px;
+                border-radius: 12px;
+                margin: 25px 0;
+                border-left: 4px solid #667eea;
+            }
+            
+            .meta-item {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+            
+            .meta-icon {
+                font-size: 18px;
+                color: #667eea;
+            }
+            
+            .meta-text {
+                color: #546e7a;
+                font-size: 14px;
+                font-weight: 500;
+            }
+            
+            /* View Button */
+            .view-btn {
+                width: 100%;
+                padding: 16px;
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                color: white;
+                border: none;
+                border-radius: 12px;
+                font-size: 16px;
+                font-weight: 600;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 10px;
+                transition: all 0.3s ease;
+                position: relative;
+                overflow: hidden;
+            }
+            
+            .view-btn:before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: -100%;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+                transition: 0.5s;
+            }
+            
+            .view-btn:hover {
+                transform: translateY(-3px);
+                box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+            }
+            
+            .view-btn:hover:before {
+                left: 100%;
+            }
+            
+            .btn-icon {
+                font-size: 18px;
+            }
+            
+            .btn-arrow {
+                opacity: 0;
+                transform: translateX(-10px);
+                transition: all 0.3s;
+            }
+            
+            .view-btn:hover .btn-arrow {
+                opacity: 1;
+                transform: translateX(0);
+            }
+            
+            /* Empty State */
+            .no-posts {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                min-height: 60vh;
+            }
+            
+            .empty-state {
+                text-align: center;
+                max-width: 500px;
+                padding: 50px;
+                background: white;
+                border-radius: 25px;
+                box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+            }
+            
+            .empty-icon {
+                font-size: 80px;
+                margin-bottom: 25px;
+                opacity: 0.7;
+            }
+            
+            .empty-state h3 {
+                color: #2c3e50;
+                font-size: 32px;
+                margin-bottom: 15px;
+                font-weight: 700;
+            }
+            
+            .empty-state p {
+                color: #7f8c8d;
+                font-size: 18px;
+                margin-bottom: 30px;
+                line-height: 1.6;
+            }
+            
+            .create-post-btn {
+                display: inline-flex;
+                align-items: center;
+                gap: 10px;
+                padding: 16px 32px;
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                color: white;
+                text-decoration: none;
+                border-radius: 12px;
+                font-weight: 600;
+                font-size: 16px;
+                transition: all 0.3s;
+                box-shadow: 0 5px 20px rgba(102, 126, 234, 0.3);
+            }
+            
+            .create-post-btn:hover {
+                transform: translateY(-3px);
+                box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+            }
+            
+            /* Responsive Design */
+            @media (max-width: 1200px) {
+                .posts-grid {
+                    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+                    /* grid-template-columns: repeat(3, 1fr); */
+                }
+            }
+            
+            @media (min-width: 992px) {
+                .posts-grid {
+                    /* grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); */
+                    grid-template-columns: repeat(3, 1fr);
+                    gap: 25px;
+                }
+                
+                .container {
+                    padding: 30px 25px;
+                }
+                
+                .page-title {
+                    font-size: 36px;
+                }
+            }
+            
+            @media (min-width: 768px) {
+                .posts-grid {
+                    /* grid-template-columns: 1fr; */
+                    grid-template-columns: repeat(3, 1fr);
+
+                    gap: 25px;
+                }
+                
+                .post-card {
+                    padding: 25px;
+                }
+                
+                .page-title {
+                    font-size: 32px;
+                }
+                
+                .post-title {
+                    font-size: 22px;
+                }
+            }
+            
+            @media (max-width: 480px) {
+                .container {
+                    padding: 20px 15px;
+                }
+                
+                .page-title {
+                    font-size: 28px;
+                }
+                
+                .post-card {
+                    padding: 20px;
+                }
+                
+                .post-title {
+                    font-size: 20px;
+                }
+                
+                .empty-state {
+                    padding: 30px 20px;
+                }
+                
+                .empty-state h3 {
+                    font-size: 26px;
+                }
+            }
+            
+            /* Animation for cards */
+            @keyframes fadeInUp {
+                from {
+                    opacity: 0;
+                    transform: translateY(30px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+            
+            .post-card {
+                animation: fadeInUp 0.6s ease-out forwards;
+                opacity: 0;
+            }
+            
+            /* Stagger animation for cards */
+            .post-card:nth-child(1) { animation-delay: 0.1s; }
+            .post-card:nth-child(2) { animation-delay: 0.2s; }
+            .post-card:nth-child(3) { animation-delay: 0.3s; }
+            .post-card:nth-child(4) { animation-delay: 0.4s; }
+            .post-card:nth-child(5) { animation-delay: 0.5s; }
+            .post-card:nth-child(n+6) { animation-delay: 0.6s; }
+    </style>
+</head>
+<body>
+    <%- include('partials/header', { 
+        pageTitle: 'Login',
+        pageStyles: '',
+        pageScripts: ''
+    }) %>
+    <!-- Header with Login/Signup -->
+
+    <div class="container">
+        <h1 class="page-title">📰 All Posts</h1>
+        
+        <% let count = 1; %>
+        <% if (posts && posts.length > 0) { %>
+            <div class="posts-grid">
+                <% posts.forEach(post => { %>
+                    <div class="post-card">
+                        <!-- Post Number Badge -->
+                        <div class="post-number">
+                            <span class="post-count"><%= count %></span>
+                        </div>
+                        
+                        <!-- Post Title -->
+                        <h3 class="post-title">
+                            <span class="post-icon">📝</span>
+                            <%= post.title %>
+                        </h3>
+                        
+                        <!-- Post Content Preview -->
+                        <div class="post-content">
+                            <div class="content-preview">
+                                <%= post.content.length > 150 ? post.content.substring(0, 150) + '...' : post.content %>
+                            </div>
+                            <% if (post.content.length > 150) { %>
+                                <span class="read-more">Read more...</span>
+                            <% } %>
+                        </div>
+                        
+                        <!-- Post Metadata -->
+                        <div class="post-meta">
+                            <div class="meta-item">
+                                <span class="meta-icon">📅</span>
+                                <span class="meta-text">
+                                    <%= new Date(post.created_at).toLocaleDateString('en-US', { 
+                                        year: 'numeric', 
+                                        month: 'long', 
+                                        day: 'numeric',
+                                        hour: '2-digit',
+                                        minute: '2-digit'
+                                    }) %>
+                                </span>
+                            </div>
+                        </div>
+                        
+                        <!-- Action Button -->
+                        <form action="/post/detail/<%= post.id %>" method="get">
+                            <button type="submit" class="view-btn">
+                                <span class="btn-icon">🔍</span>
+                                View Details
+                                <span class="btn-arrow">→</span>
+                            </button>
+                        </form>
+                    </div>
+                    <% count++; %>
+                <% }) %>
+            </div>
+        <% } else { %>
+            <div class="no-posts">
+                <div class="empty-state">
+                    <div class="empty-icon">📭</div>
+                    <h3>No Posts Yet</h3>
+                    <p>Be the first to share your thoughts and stories!</p>
+                    <a href="/posts/create" class="create-post-btn">
+                        <span>✏️</span>
+                        Create Your First Post
+                    </a>
+                </div>
+            </div>
+        <% } %>
+    </div>
+
+
+    <%- include('partials/footer') %>
+
+</body>
+</html>

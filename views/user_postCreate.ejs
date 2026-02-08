@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create New Post</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 70vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 800px;
+            padding: 40px;
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .header h1 {
+            color: #333;
+            font-size: 28px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .header h1::before {
+            content: "📝";
+            font-size: 24px;
+        }
+
+        .back-btn {
+            background-color: #6c757d;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: background-color 0.3s;
+        }
+
+        .back-btn:hover {
+            background-color: #5a6268;
+        }
+
+        /* Form */
+        .post-form {
+            margin-top: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #444;
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .form-control::placeholder {
+            color: #aaa;
+        }
+
+        .title-input {
+            font-size: 18px;
+            font-weight: 500;
+        }
+
+        .content-input {
+            min-height: 200px;
+            resize: vertical;
+            line-height: 1.6;
+        }
+
+        /* Character Count */
+        .char-count {
+            text-align: right;
+            color: #666;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+
+        /* Button */
+        .submit-btn {
+            background: linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(76, 175, 80, 0.3);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+        /* Error Messages */
+        .error-message {
+            background-color: #f8d7da;
+            color: #721c24;
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            border-left: 4px solid #f5c6cb;
+            display: none;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+
+        .field-error {
+            color: #dc3545;
+            font-size: 14px;
+            margin-top: 5px;
+            display: none;
+        }
+
+        /* Success Message */
+        .success-message {
+            background-color: #d4edda;
+            color: #155724;
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            border-left: 4px solid #c3e6cb;
+        }
+
+        /* Preview Section (Optional) */
+        .preview-section {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #007bff;
+        }
+
+        .preview-title {
+            color: #333;
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        .preview-content {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 25px;
+            }
+            
+            .header {
+                flex-direction: column;
+                gap: 15px;
+                align-items: flex-start;
+            }
+            
+            .header h1 {
+                font-size: 24px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 10px;
+            }
+            
+            .container {
+                padding: 20px;
+            }
+            
+            .form-control {
+                padding: 12px;
+            }
+            
+            .submit-btn {
+                padding: 12px 20px;
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>Create New Post</h1>
+            <a href="/dashboard" class="back-btn">
+                ← Back to Dashboard
+            </a>
+        </div>
+
+        <!-- Success Message (if redirected after successful post creation) -->
+<!-- 
+            <div class="success-message">
+                
+            </div>
+
+        //Error Message
+        <div id="error-message" class="error-message"></div> -->
+
+        <!-- Create Post Form -->
+        <form action="/user/post/create/<%= id %>" method="POST" class="post-form" id="postForm">
+            <!-- Title Field -->
+            <div class="form-group">
+                <label for="title">Post Title *</label>
+                <input 
+                    type="text" 
+                    id="title" 
+                    name="title" 
+                    class="form-control title-input" 
+                    placeholder="Enter a catchy title for your post..."
+                    required
+                    maxlength="200"
+                >
+                <div class="char-count">
+                    <span id="title-count">0</span>/200 characters
+                </div>
+                <div id="title-error" class="field-error"></div>
+            </div>
+
+            <!-- Content Field -->
+            <div class="form-group">
+                <label for="content">Post Content *</label>
+                <textarea 
+                    id="content" 
+                    name="content" 
+                    class="form-control content-input" 
+                    placeholder="Write your amazing content here..."
+                    required
+                    rows="8"
+                    maxlength="5000"
+                ></textarea>
+                <div class="char-count">
+                    <span id="content-count">0</span>/5000 characters
+                </div>
+                <div id="content-error" class="field-error"></div>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="submit-btn">
+                📤 Publish Post
+            </button>
+        </form>
+    </div>
+    <%- include('partials/footer') %>
+    <script>
+        // Character counter for title
+        const titleInput = document.getElementById('title');
+        const titleCount = document.getElementById('title-count');
+        const success_message = document.getElementsByClassName('success-message');
+
+        if(success){
+            success_message.textContent = "✅ Post created successfully!";
+        }
+        titleInput.addEventListener('input', function() {
+            titleCount.textContent = this.value.length;
+            // Update preview
+            document.getElementById('previewTitle').textContent = 
+                this.value || 'Your title will appear here...';
+        });
+
+        // Character counter for content
+        const contentInput = document.getElementById('content');
+        const contentCount = document.getElementById('content-count');
+        
+        contentInput.addEventListener('input', function() {
+            contentCount.textContent = this.value.length;
+            // Update preview
+            document.getElementById('previewContent').textContent = 
+                this.value || 'Your content will appear here...';
+        });
+
+        // Form validation
+        document.getElementById('postForm').addEventListener('submit', function(e) {
+            const title = document.getElementById('title').value.trim();
+            const content = document.getElementById('content').value.trim();
+            let isValid = true;
+            const errorMessage = document.getElementById('error-message');
+            
+            // Clear previous errors
+            errorMessage.classList.remove('show');
+            document.getElementById('title-error').style.display = 'none';
+            document.getElementById('content-error').style.display = 'none';
+
+            // Validate title
+            if (!title) {
+                document.getElementById('title-error').textContent = 'Title is required';
+                document.getElementById('title-error').style.display = 'block';
+                isValid = false;
+            } else if (title.length < 5) {
+                document.getElementById('title-error').textContent = 'Title must be at least 5 characters';
+                document.getElementById('title-error').style.display = 'block';
+                isValid = false;
+            }
+
+            // Validate content
+            if (!content) {
+                document.getElementById('content-error').textContent = 'Content is required';
+                document.getElementById('content-error').style.display = 'block';
+                isValid = false;
+            } else if (content.length < 20) {
+                document.getElementById('content-error').textContent = 'Content must be at least 20 characters';
+                document.getElementById('content-error').style.display = 'block';
+                isValid = false;
+            }
+
+            if (!isValid) {
+                e.preventDefault();
+                errorMessage.textContent = 'Please fix the errors above before submitting.';
+                errorMessage.classList.add('show');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        });
+
+        // Initialize character counts on page load
+        window.onload = function() {
+            titleCount.textContent = titleInput.value.length;
+            contentCount.textContent = contentInput.value.length;
+        };
+
+        // Auto-resize textarea
+        contentInput.addEventListener('input', function() {
+            this.style.height = 'auto';
+            this.style.height = (this.scrollHeight) + 'px';
+        });
+    </script>
+    
+</body>
+</html>

@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Post</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f5f5f5;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        /* Header */
+        .header {
+            background: #4CAF50;
+            color: white;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .header h1 {
+            font-size: 24px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            border-radius: 5px;
+            text-decoration: none;
+            color: white;
+            font-size: 14px;
+            cursor: pointer;
+            border: none;
+        }
+
+        .back-btn {
+            background: #666;
+        }
+
+        .back-btn:hover {
+            background: #555;
+        }
+
+        /* Form */
+        .form-content {
+            padding: 30px;
+        }
+
+        .alert {
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        .alert-error {
+            background: #ffeaea;
+            color: #d63031;
+            border-left: 4px solid #ff7675;
+        }
+
+        .alert-success {
+            background: #e8f6ef;
+            color: #27ae60;
+            border-left: 4px solid #2ecc71;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: #4CAF50;
+        }
+
+        textarea {
+            min-height: 200px;
+            resize: vertical;
+            line-height: 1.6;
+        }
+
+        .char-count {
+            text-align: right;
+            color: #666;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+
+        .form-footer {
+            margin-top: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+
+        .post-info {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .post-info span {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .submit-btn {
+            background: #2196F3;
+            color: white;
+            padding: 12px 30px;
+            font-size: 16px;
+            min-width: 150px;
+        }
+
+        .submit-btn:hover {
+            background: #1976D2;
+        }
+
+        .delete-btn {
+            background: #f44336;
+        }
+
+        .delete-btn:hover {
+            background: #d32f2f;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                text-align: center;
+                padding: 15px;
+            }
+            
+            .header h1 {
+                font-size: 20px;
+            }
+            
+            .form-content {
+                padding: 20px;
+            }
+            
+            .form-footer {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .btn {
+                width: 100%;
+                margin-bottom: 10px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 10px;
+            }
+            
+            .header {
+                padding: 15px 10px;
+            }
+            
+            .form-content {
+                padding: 15px;
+            }
+            
+            input, textarea {
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>✏️ Edit Post</h1>
+            <div>
+                <a href="/admin/dashboard" class="btn back-btn">← Back to Dashboard</a>
+            </div>
+        </div>
+
+        <!-- Form Content -->
+        <div class="form-content">
+           
+
+            <form action="/admin/user/post/edit/<%= uid %>/<%= post.id %>" method="POST" id="editForm">
+                <!-- Title Field -->
+                <div class="form-group">
+                    <label for="title">Title</label>
+                    <input 
+                        type="text" 
+                        id="title" 
+                        name="title" 
+                        value="<%= post.title %>" 
+                        required
+                        maxlength="200"
+                        placeholder="Enter post title..."
+                    >
+                    <div class="char-count">
+                        <span id="titleCount"><%= post.title.length %></span>/200 characters
+                    </div>
+                </div>
+
+                <!-- Content Field -->
+                <div class="form-group">
+                    <label for="content">Content</label>
+                    <textarea 
+                        id="content" 
+                        name="content" 
+                        required
+                        maxlength="5000"
+                        placeholder="Write your post content here..."
+                    ><%= post.content %></textarea>
+                    <div class="char-count">
+                        <span id="contentCount"><%= post.content.length %></span>/5000 characters
+                    </div>
+                </div>
+
+                <!-- Form Footer -->
+                <div class="form-footer">
+                    <div class="post-info">
+                        Created: <span><%= new Date(post.created_at).toLocaleDateString() %></span>
+                    </div>
+                    
+                    <div style="display: flex; gap: 10px;">
+                        <!-- Delete Form -->
+                        <!-- <form action="/admin/post/delete/ < %= post.id %>" method="POST" 
+                              onsubmit="return confirm('Are you sure you want to delete this post?');" 
+                              style="display: inline;">
+                            <button type="submit" class="btn delete-btn">
+                                Delete Post
+                            </button>
+                        </form> -->
+                        
+                        <!-- Update Button -->
+                        <button type="submit" class="btn submit-btn">
+                            Update Post
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Character counters
+        const titleInput = document.getElementById('title');
+        const contentInput = document.getElementById('content');
+        const titleCount = document.getElementById('titleCount');
+        const contentCount = document.getElementById('contentCount');
+        
+        // Update title count
+        titleInput.addEventListener('input', function() {
+            titleCount.textContent = this.value.length;
+        });
+        
+        // Update content count
+        contentInput.addEventListener('input', function() {
+            contentCount.textContent = this.value.length;
+            // Auto-resize textarea
+            this.style.height = 'auto';
+            this.style.height = (this.scrollHeight) + 'px';
+        });
+        
+        // Form validation
+        document.getElementById('editForm').addEventListener('submit', function(e) {
+            const title = titleInput.value.trim();
+            const content = contentInput.value.trim();
+            
+            if (!title) {
+                alert('Title is required');
+                e.preventDefault();
+                return;
+            }
+            
+            if (title.length < 5) {
+                alert('Title must be at least 5 characters long');
+                e.preventDefault();
+                return;
+            }
+            
+            if (!content) {
+                alert('Content is required');
+                e.preventDefault();
+                return;
+            }
+            
+            if (content.length < 10) {
+                alert('Content must be at least 10 characters long');
+                e.preventDefault();
+                return;
+            }
+        });
+        
+        // Auto-resize textarea on load
+        window.onload = function() {
+            contentInput.style.height = 'auto';
+            contentInput.style.height = (contentInput.scrollHeight) + 'px';
+        };
+    </script>
+    <%- include('partials/footer') %>
+</body>
+</html>

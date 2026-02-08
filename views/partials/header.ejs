@@ -1,0 +1,444 @@
+<!-- views/partials/header.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= typeof pageTitle !== 'undefined' ? pageTitle : 'Blog App' %></title>
+    <style>
+
+
+        /* Active Nav Link Styles - Add to your header CSS */
+        .nav-menu a.active-nav-link {
+            background-color: #7a7a7a !important;
+            color: white !important;
+            font-weight: bold;
+        }
+
+        .nav-menu a.active-admin-nav-link{
+            background-color: #fffa76 !important;
+            color: white !important;
+            font-weight: bold;
+        }
+
+        /* For button style links */
+        .nav-menu a.btn.active-nav-link {
+            background: #45a049 !important;
+            color: white !important;
+        }
+
+        .nav-menu a.btn-danger.active-nav-link {
+            background: #c82333 !important;
+            color: white !important;
+        }
+
+        /* Hover effect stays */
+        .nav-menu a.active-nav-link:hover {
+            opacity: 0.9;
+        }
+
+
+        /* Basic Reset */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; }
+        
+        body { 
+            background-color: #f8f9fa; 
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        /* Navigation Bar */
+        .navbar1 {
+            background: #333;
+            color: rgb(255, 206, 71);
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        .logo1 {
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+            white-space: nowrap;
+        }
+        
+        .nav-menu {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        .nav-menu a {
+            color: rgb(255, 255, 255);
+            text-decoration: none;
+            padding: 8px 12px;
+            border-radius: 4px;
+            font-size: 15px;
+            white-space: nowrap;
+        }
+        
+        .nav-menu a:hover {
+            background: #4c4c4c;
+        }
+        
+        .btn {
+            /* background: #81ff7f; */
+            color: rgb(22, 22, 22);
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            font-size: 15px;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .btn:hover {
+            background: #f5dc64;
+        }
+        
+        .btn-danger {
+            background: #dc3545;
+            color: white;
+        }
+        
+        .btn-danger:hover {
+            background: #c82333;
+        }
+        
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            padding: 30px;
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+        }
+        
+        /* User Info */
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .username1 {
+            font-weight: bold;
+            color: #4CAF50;
+            font-size: 14px;
+        }
+        
+        .user-role {
+            background: #666;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 12px;
+        }
+        
+        /* Mobile Menu Toggle */
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            padding: 5px;
+        }
+        
+        /* Responsive Breakpoints */
+        
+        /* Tablet View (768px and below) */
+        @media (max-width: 768px) {
+            .navbar1 {
+                padding: 12px 20px;
+                flex-direction: row;
+                justify-content: space-between;
+            }
+            
+            .nav-menu {
+                width: 100%;
+                display: none; /* Hidden by default on mobile */
+                flex-direction: column;
+                gap: 10px;
+                margin-top: 15px;
+                padding-top: 15px;
+                border-top: 1px solid #555;
+            }
+            
+            .nav-menu.active {
+                display: flex; /* Show when active */
+            }
+            
+            .menu-toggle {
+                display: block; 
+                /* Show hamburger menu */
+            }
+            
+            .user-info {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
+            }
+            
+            .main-content {
+                padding: 20px 15px;
+            }
+        }
+        
+        /* Small Mobile (480px and below) */
+        @media (max-width: 480px) {
+            .navbar1 {
+                padding: 10px 15px;
+            }
+            
+            .logo1 {
+                font-size: 20px;
+            }
+            
+            .nav-menu a {
+                padding: 6px 10px;
+                font-size: 14px;
+                width: 100%;
+                text-align: center;
+            }
+            
+            .btn {
+                padding: 6px 12px;
+                font-size: 14px;
+                width: 100%;
+                text-align: center;
+                /* background-color: #dc3545; */
+            }
+            
+            .main-content {
+                padding: 15px 10px;
+            }
+            
+            .user-info span {
+                font-size: 13px;
+            }
+        }
+        
+        /* Medium screens (769px to 1024px) */
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .nav-menu {
+                gap: 10px;
+            }
+            
+            .nav-menu a {
+                padding: 6px 10px;
+                font-size: 14px;
+            }
+            
+            .user-info {
+                gap: 10px;
+            }
+        }
+    </style>
+    
+    <!-- Page-specific CSS - Safe check -->
+    <% if (typeof pageStyles !== 'undefined' && pageStyles) { %>
+        <!-- <style><%= pageStyles %></style> -->
+    <% } %>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar1">
+        <a href="/" class="logo1">📝 BlogApp</a>
+        
+        <!-- Mobile Menu Toggle Button -->
+        <button class="menu-toggle" onclick="toggleMobileMenu()">☰</button>
+        
+        <div class="nav-menu" id="mobileMenu">
+            <% if (typeof user !== 'undefined' && user) { %>
+                <!-- User is logged in -->
+                <div class="user-info">
+                    <span class="username1">👤 <%= user.name %></span>
+                    <span class="user-role"><%= user.role %></span>
+                    <a href="/">Home</a>
+                    <% if (user.role === 'admin' || autho )  { %>
+                        <!-- Admin Menu -->
+                        <a href="/admin/dashboard">Admin Dashboard</a>
+                        <a href="/admin/users/dashboard">All Users</a>
+                    <% } else { %>
+                        <!-- Regular User Menu -->
+                        <a href="/user/dashboard">Dashboard</a>
+                        <!-- Common for all logged in users -->
+                        <a href="/user/edit">Profile Edit</a>
+                    <% } %>
+                    <a href="/user/logout" class="btn btn-danger">Logout</a>
+                </div>
+            <% } else { %>
+                <!-- Not logged in -->
+                <a href="/">Home</a>
+                <a href="/user/login">Login</a>
+                <a href="/user/signup" class="btn">Sign Up</a>
+            <% } %>
+        </div>
+    </nav>
+    
+    <!-- Main Content Area -->
+    <div class="main-content">
+
+    <script>
+
+
+// Function to highlight active nav link with route mapping
+    function highlightActiveNavLink() {
+        const currentPath = window.location.pathname;
+        const navLinks = document.querySelectorAll('.nav-menu a');
+        
+        // Route patterns to match
+        const routePatterns = {
+            '/': '/',  // Home
+            '/user/login': '/user/login',
+            '/user/signup': '/user/signup',
+            '/user/dashboard': '/user/dashboard',
+            '/admin/dashboard': '/admin/dashboard',
+            '/admin/users/dashboard': '/admin/users/dashboard',
+            '/admin/user/post/dashboard': '/admin/user/post/dashboard',
+            '/user/edit': '/user/edit',
+            '/user/profile': '/user/profile',
+            '/user/logout': '/user/logout',
+            '/admin/logout': '/admin/logout'
+        };
+        
+        // Remove active class from all links
+       
+        navLinks.forEach(link => link.classList.remove('active-nav-link'));
+        
+        // Check each link
+        navLinks.forEach(link => {
+            const linkHref = link.getAttribute('href');
+            if (!linkHref) return;
+            
+            // Check for exact match
+            if (currentPath === linkHref) {
+                link.classList.add('active-nav-link');
+                return;
+            }
+            
+            // Check for home page
+            else if (currentPath === '/' && linkHref === '/') {
+                link.classList.add('active-nav-link');
+                return;
+            }
+            
+            
+            // else if (linkHref === '/user/dashboard' && currentPath.startsWith('/user/') && 
+            //     !currentPath.includes('/login') && !currentPath.includes('/signup')) {
+            //     link.classList.add('active-nav-link');
+            //     return;
+            // }
+            
+            // Check admin users
+            else if (linkHref === '/admin/users/dashboard' && 
+                (currentPath.includes('/admin/users') || currentPath.includes('/admin/user'))) {
+                link.classList.add('active-nav-link');
+                return;
+            }
+            
+            // Check admin posts
+            else if (linkHref === '/admin/user/post/dashboard' && currentPath.includes('/admin/post')) {
+                link.classList.add('active-nav-link');
+                return;
+            }
+            
+            // Check user profile/edit
+            // else if ((linkHref === '/user/edit' || linkHref === '/user/profile') && 
+            //     (currentPath.includes('/user/edit') || currentPath.includes('/user/profile'))) {
+            //     link.classList.add('active-nav-link');
+            //     return;
+            // }
+            else{
+
+            }
+        });
+    }
+    
+    // Run when page loads
+    document.addEventListener('DOMContentLoaded', highlightActiveNavLink);
+    window.addEventListener('popstate', highlightActiveNavLink);
+
+
+
+
+
+
+
+
+
+
+
+
+    // Mobile menu toggle function
+    function toggleMobileMenu() {
+        const menu = document.getElementById('mobileMenu');
+        if (menu.style.display === 'flex' || menu.classList.contains('active')) {
+            menu.style.display = 'none';
+            menu.classList.remove('active');
+        } else {
+            menu.style.display = 'flex';
+            menu.classList.add('active');
+        }
+    }
+    
+    // Close mobile menu when clicking outside
+    document.addEventListener('click', function(event) {
+        const menu = document.getElementById('mobileMenu');
+        const toggleButton = document.querySelector('.menu-toggle');
+        const navbar = document.querySelector('.navbar1');
+        
+        // Check if click is outside the navbar
+        if (!navbar.contains(event.target)) {
+            // menu.style.display = 'none';
+            menu.classList.remove('active');
+        }
+    });
+    
+    // Close mobile menu when clicking a link
+    document.querySelectorAll('.nav-menu a').forEach(link => {
+        link.addEventListener('click', function() {
+            const menu = document.getElementById('mobileMenu');
+            if (window.innerWidth <= 768) {
+                menu.style.display = 'none';
+                menu.classList.remove('active');
+            }
+        });
+    });
+    
+    // Adjust menu on window resize
+    window.addEventListener('resize', function() {
+        const menu = document.getElementById('mobileMenu');
+        if (window.innerWidth > 768) {
+            // Desktop: show menu, remove mobile styles
+            menu.style.display = 'flex';
+            menu.classList.remove('active');
+        } else {
+            // Mobile: hide menu initially
+            menu.style.display = 'none';
+            menu.classList.remove('active');
+        }
+    });
+    
+    // Initialize menu display based on screen size
+    window.onload = function() {
+        const menu = document.getElementById('mobileMenu');
+        if (window.innerWidth > 768) {
+            menu.style.display = 'flex';
+        } else {
+            menu.style.display = 'none';
+        }
+    };
+</script>
